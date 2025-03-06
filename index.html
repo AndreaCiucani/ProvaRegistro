@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-
+<html lang="it">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title> Class Register</title>
     <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
     <div id="divButtons">
         <button id="button1">Classes</button>
@@ -16,40 +17,157 @@
         <div class="tab active">Classes <br>
             <input type="text" id="inputText"> <br>
             <button id="addButtonClass" onclick="addToList()">Add to list</button> <br>
-            <ul id="list"> List
-                
-            </ul>
+            <ul id="list"> Class List </ul>
         </div>
-        <div class="tab notActive">Students</div>
-        <div class="tab notActive">Lessons</div>
-        <div class="tab notActive">Attendances</div>
+        <div class="tab notActive">Students <br>
+            <input type="text" id="inputTextStudents" placeholder="Student's Name"><br>
+            <select id="dropDownList">
+                <option value="">Select a class</option>
+            </select> <br>
+            <button id="addButtonClass" onclick="addStudent()">Add Student</button>
+            <ul id="studentsList">Students List </ul>
+        </div>
+        <div class="tab notActive"> <br>
+            Lessons: <input type="text" id="inputTextLessons" placeholder="Lesson's Name"> <br>
+            Date: <input type="date" id="inputDateLessons"> <br>
+            Class: <select id="dropDownListLessons">
+                <option value="">Select a class</option>
+            </select> <br>
+            <button id="addButtonLessons" onclick="addLesson()">Add Lesson</button>
+            <ul id="lessonsList">Lesson List</ul>
+        </div>
+        <div class="tab notActive">Attendances <br>
+            Lesson: <select id="dropDownListAttendanceLessons"> 
+                <option value="">Select a lesson</option>
+            </select> <br>
+            Student: <select id="dropDownListStudents">
+                <option value="">Select a student</option>
+            </select> <br>
+            Status: <select id="dropDownStatus">
+                <option value="Present">Present</option>
+                <option value="Absent">Absent</option>
+            </select> <br>
+            <button id="recordAttendance" onclick="addRecord()">Record Attendance</button>
+            <ul id="records">Attendance Records</ul>
+        </div>
     </div>
 
-</body>
-
-<script>
-    function changeTabs() {
-        const buttons = document.querySelectorAll("#divButtons button");
-        const tabs = document.querySelectorAll(".tab");
-        buttons.forEach((button, index) => {
-            button.addEventListener('click', () => {
-
-                tabs.forEach(tab => tab.classList.remove("active"));
-                tabs.forEach(tab => tab.classList.add("notActive"));
-
-                tabs[index].classList.remove("notActive");
-                tabs[index].classList.add("active");
+    <script>
+        function changeTabs() {
+            const buttons = document.querySelectorAll("#divButtons button");
+            const tabs = document.querySelectorAll(".tab");
+            buttons.forEach((button, index) => {
+                button.addEventListener('click', () => {
+                    tabs.forEach(tab => tab.classList.remove("active"));
+                    tabs.forEach(tab => tab.classList.add("notActive"));
+                    tabs[index].classList.remove("notActive");
+                    tabs[index].classList.add("active");
+                });
             });
-        });
-    }
+        }
 
-    changeTabs();
+        changeTabs();
 
-    function addToList(){
-        let content = document.getElementById("inputText").value;
-        let li = document.createElement("li");
-        li.textContent = content;
-        document.getElementById("list").appendChild(li);        
-    }
-    
-</script>
+        function addToList() {
+            let content = document.getElementById("inputText").value;
+            if (content === "") return;
+
+            let li = document.createElement("li");
+            li.textContent = content;
+            document.getElementById("list").appendChild(li);
+            document.getElementById("inputText").value = "";
+
+            let option1 = document.createElement("option");
+            option1.value = content;
+            option1.textContent = content;
+            document.getElementById("dropDownList").appendChild(option1);
+
+            let option2 = document.createElement("option");
+            option2.value = content;
+            option2.textContent = content;
+            document.getElementById("dropDownListLessons").appendChild(option2);
+        }
+
+        function addStudent() {
+            let studentName = document.getElementById("inputTextStudents").value;
+            let menu = document.getElementById("dropDownList");
+            let selectedClass = menu.value;
+            if (studentName === "" || selectedClass === "") return;
+
+            let li = document.createElement("li");
+            li.textContent = studentName + " - " + selectedClass;
+            let liButton = document.createElement("button");
+            liButton.textContent = "Delete";
+            liButton.addEventListener("click", function () {
+                li.remove();
+            });
+            li.appendChild(liButton);
+            document.getElementById("studentsList").appendChild(li);
+
+            // Aggiunge lo studente al dropdown delle presenze
+            let option = document.createElement("option");
+            option.value = studentName;
+            option.textContent = studentName;
+            document.getElementById("dropDownListStudents").appendChild(option);
+
+            document.getElementById("inputTextStudents").value = "";
+        }
+
+        function addLesson() {
+            let lessonName = document.getElementById("inputTextLessons").value;
+            let date = document.getElementById("inputDateLessons").value;
+            let classmenu = document.getElementById("dropDownListLessons");
+            let selectedClassMenu = classmenu.value;
+
+            if (lessonName === "" || date === "" || selectedClassMenu === "") {
+                alert("Compila tutti i campi!");
+                return;
+            }
+
+            let li = document.createElement("li");
+            li.textContent = lessonName + " - " + date + " - " + selectedClassMenu;
+            let liButton = document.createElement("button");
+            liButton.textContent = "Delete";
+            liButton.addEventListener("click", function () {
+                li.remove();
+            });
+            li.appendChild(liButton);
+            document.getElementById("lessonsList").appendChild(li);
+
+            // Aggiunge la lezione al dropdown delle presenze
+            let option = document.createElement("option");
+            option.value = lessonName;
+            option.textContent = lessonName;
+            document.getElementById("dropDownListAttendanceLessons").appendChild(option);
+
+            document.getElementById("inputTextLessons").value = "";
+        }
+
+        function addRecord() {
+            let lessons = document.getElementById("dropDownListAttendanceLessons");
+            let selectedLesson = lessons.value;
+            let students = document.getElementById("dropDownListStudents");
+            let selectedStudent = students.value;
+            let status = document.getElementById("dropDownStatus");
+            let selectedStatus = status.value;
+
+            if (selectedLesson === "" || selectedStudent === "" || selectedStatus === "") {
+                alert("Compila tutti i campi per registrare la presenza!");
+                return;
+            }
+
+            let li = document.createElement("li");
+            li.textContent = selectedLesson + " - " + selectedStudent + " - " + selectedStatus;
+
+            let liButton = document.createElement("button");
+            liButton.textContent = "Delete";
+            liButton.addEventListener("click", function () {
+                li.remove();
+            });
+
+            li.appendChild(liButton);
+            document.getElementById("records").appendChild(li);
+        }
+    </script>
+</body>
+</html>

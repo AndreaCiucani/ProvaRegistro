@@ -1,7 +1,126 @@
-.active{
-    display:contents
+/* General Styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-.notActive{
+#divButtons {
+    margin: 20px;
+    text-align: center;
+}
+
+#divButtons button {
+    padding: 10px 20px;
+    margin: 5px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+#divButtons button:hover {
+    background-color: #45a049;
+}
+
+/* Tabs styles */
+.tab {
     display: none;
+    margin: 20px;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+}
+
+.tab.active {
+    display: block;
+}
+
+input[type="text"], input[type="date"], select {
+    padding: 8px;
+    margin: 10px 0;
+    width: 200px;
+    font-size: 16px;
+}
+
+button {
+    padding: 10px 15px;
+    margin: 10px;
+    font-size: 16px;
+    background-color: #008CBA;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #007B9A;
+}
+
+/* Styling for lists (Class List, Students List, Lessons List) */
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+ul li {
+    padding: 8px;
+    margin: 5px 0;
+    background-color: #f1f1f1;
+    border-radius: 4px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+ul li button {
+    padding: 5px 10px;
+    background-color: red;
+    border-radius: 4px;
+    color: white;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+ul li button:hover {
+    background-color: darkred;
+}
+
+/* Styling for dropdowns */
+select {
+    padding: 8px;
+    font-size: 16px;
+}
+
+/* Styling for placeholder text */
+input::placeholder {
+    color: #888;
+}
+
+/* Active and Not Active Tab */
+.notActive {
+    display: none;
+}
+
+/* Responsiveness */
+@media (max-width: 768px) {
+    input[type="text"], input[type="date"], select, button {
+        width: 100%;
+        font-size: 14px;
+    }
+
+    #divButtons button {
+        width: 100%;
+        margin: 5px 0;
+    }
+
+    .tab {
+        padding: 10px;
+    }
+
+    ul li {
+        font-size: 14px;
+    }
 }
